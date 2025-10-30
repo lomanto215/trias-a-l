@@ -1,6 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    from_name: '',
+    from_email: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus('');
+
+    try {
+      await emailjs.send(
+        'service_pb4lf4e',      
+        'template_da9y2md',     
+        formData,
+        '5CpO5XYO8nUsJ3cyH'       
+      );
+
+      setStatus('success');
+      setFormData({ from_name: '', from_email: '', message: '' });
+      alert('Message sent successfully! ✅');
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+      alert('Failed to send message. Please try again. ❌');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -65,12 +106,16 @@ const Contact = () => {
           </div>
 
           <div className="flex-1">
-            <form className="bg-white rounded-2xl shadow-lg p-8">
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8">
               <div className="mb-6">
                 <label className="block text-gray-700 font-medium mb-2">Name</label>
                 <input 
                   type="text" 
+                  name="from_name"
+                  value={formData.from_name}
+                  onChange={handleChange}
                   placeholder="Your Name"
+                  required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition"
                 />
               </div>
@@ -79,7 +124,11 @@ const Contact = () => {
                 <label className="block text-gray-700 font-medium mb-2">Email</label>
                 <input 
                   type="email" 
+                  name="from_email"
+                  value={formData.from_email}
+                  onChange={handleChange}
                   placeholder="you@email.com"
+                  required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition"
                 />
               </div>
@@ -88,16 +137,21 @@ const Contact = () => {
                 <label className="block text-gray-700 font-medium mb-2">Message</label>
                 <textarea 
                   rows="5"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Type your message..."
+                  required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 transition resize-none"
                 ></textarea>
               </div>
               
               <button 
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition font-medium"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>

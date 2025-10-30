@@ -12,7 +12,7 @@ const About = () => {
             <div className="w-80 h-96 bg-gradient-to-br from-purple-400 via-pink-300 to-blue-400 rounded-2xl overflow-hidden">
               <div className="w-full h-full bg-gray-300 flex items-center justify-center">
                 <img 
-                  src={require('../assets/images/profile.jpg')} 
+                  src={require('../assets/images/profile.jpeg')} 
                   alt="Profile" 
                   className="w-full h-full object-cover"
                 />

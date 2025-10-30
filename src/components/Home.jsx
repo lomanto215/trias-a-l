@@ -54,7 +54,7 @@ const Home = () => {
             <div className="w-80 h-80 rounded-full bg-gradient-to-br from-purple-400 via-pink-300 to-blue-400 p-2">
               <div className="w-full h-full rounded-full bg-gray-300 overflow-hidden flex items-center justify-center">
                   <img 
-                  src={require('../assets/images/profile.jpg')} 
+                  src={require('../assets/images/profile.jpeg')} 
                   alt="Profile" 
                   className="w-full h-full object-cover"
                   />
