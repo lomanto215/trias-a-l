@@ -3,7 +3,7 @@ import { ArrowRight, Trash2 } from 'lucide-react'
 import { Link } from 'react-router'
 
 import ProgressBar from '../components/ProgressBar'
-import { Badge, Button, Card, ErrorNote, PageHeader, QueryView } from '../components/ui'
+import { Badge, Button, Card, ErrorNote, PageHeader, QueryView } from '../components/primitives'
 import { api } from '../lib/api'
 import { formatDate, formatDateTime } from '../lib/format'
 import { ROLE_LABELS, roomById, TRACKS } from '../lib/rooms'

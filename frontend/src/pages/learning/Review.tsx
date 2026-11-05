@@ -3,7 +3,7 @@ import { ArrowLeft, PartyPopper } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 
-import { Badge, Button, Card, ErrorNote, PageHeader, QueryView } from '../../components/ui'
+import { Badge, Button, Card, ErrorNote, PageHeader, QueryView } from '../../components/primitives'
 import { api } from '../../lib/api'
 import { LEARNING_KEY } from '../../lib/queryClient'
 import { TRACKS } from '../../lib/rooms'

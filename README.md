@@ -28,7 +28,7 @@ Website pribadi yang jadi pusat belajar (bahasa, backend, AI) dan tempat menyimp
 ## Tech stack
 
 - **Backend**: Go 1.26, Gin, sqlx, migrasi [goose](https://github.com/pressly/goose), PostgreSQL (pgx) atau SQLite (modernc, pure Go), JWT (HS256) + bcrypt.
-- **Frontend**: React 19 + Vite + TypeScript, Tailwind CSS v4, React Router, Zustand (sesi), TanStack Query (data server).
+- **Frontend**: React 19 + Vite + TypeScript, Tailwind CSS v4, struktur [shadcn/ui](https://ui.shadcn.com) (`src/components/ui`, alias `@/`), framer-motion untuk animasi hero, React Router, Zustand (sesi), TanStack Query (data server).
 - **AI**: service layer `backend/internal/ai`: klien untuk endpoint chat completions yang kompatibel dengan OpenAI, serta analisis sentimen berbasis leksikon (Indonesia + Inggris) yang berjalan lokal.
 
 ```
@@ -43,7 +43,8 @@ backend/
   internal/store/        query database + migrasi (postgres/ dan sqlite3/)
   Dockerfile
 frontend/
-  src/components/        layout, guard, UI kecil, chat AI, grafik mood
+  src/components/ui/     komponen shadcn/ui (button, hero-section-4)
+  src/components/        layout, guard, primitives, chat AI, grafik mood
   src/lib/               API client, tipe, metadata room, helper
   src/pages/             satu file per room/halaman
   vercel.json
@@ -104,6 +105,18 @@ Isi tiga variabel ini di `backend/.env` lalu restart backend. Tanpa variabel ini
 | Ollama (lokal) | `http://localhost:11434/v1` | `llama3.2` | boleh kosong |
 
 Backend hanya mengirim `model` dan `messages` agar cocok untuk semua provider di atas. Anthropic menyebut lapisan kompatibilitas OpenAI-nya terutama untuk uji coba; untuk pemakaian jangka panjang cek dokumentasi provider.
+
+## Komponen shadcn/ui
+
+Frontend memakai struktur shadcn/ui: `components.json`, alias `@/` ke `src/` (di `tsconfig.app.json` dan `vite.config.ts`), helper `cn` di `src/lib/utils.ts`, dan folder `src/components/ui` untuk komponen yang disalin dari shadcn/ui atau galeri seperti 21st.dev. Folder itu penting karena CLI shadcn dan komponen hasil salinan mengimpor dari `@/components/ui/...`; komponen buatan sendiri tetap di `src/components`.
+
+Komponen baru bisa ditambah dengan:
+
+```bash
+cd frontend && npx shadcn@latest add <nama-komponen>
+```
+
+Jangan menjalankan `npx shadcn init` lagi: perintah itu menimpa token warna di `src/index.css`. Token yang dipakai komponen shadcn (`primary`, `secondary`, `ring`, dan lainnya) sudah dipetakan ke palet situs di blok `@theme inline`, jadi ikut berganti di mode gelap.
 
 ## Environment variables
 

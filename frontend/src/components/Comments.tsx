@@ -10,7 +10,7 @@ import { inputClass } from '../lib/styles'
 import type { Comment } from '../lib/types'
 import { useAuth } from '../store/auth'
 import Avatar from './Avatar'
-import { Badge, Button, ErrorNote, QueryView } from './ui'
+import { Badge, Button, ErrorNote, QueryView } from './primitives'
 
 interface Props {
   targetType: Comment['target_type']

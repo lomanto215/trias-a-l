@@ -7,7 +7,7 @@ import { handleSubmit } from '../lib/forms'
 import { inputClass } from '../lib/styles'
 import type { ChatMessage } from '../lib/types'
 import RichText from './RichText'
-import { Button, ErrorNote } from './ui'
+import { Button, ErrorNote } from './primitives'
 
 interface Props {
   mode: 'tutor' | 'curhat'

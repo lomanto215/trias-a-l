@@ -3,7 +3,7 @@ import { useId } from 'react'
 
 import { VISIBILITY_INFO } from '../lib/rooms'
 import type { Visibility } from '../lib/types'
-import { Badge } from './ui'
+import { Badge } from './primitives'
 
 const VISIBILITIES: Visibility[] = ['private', 'shared', 'public']
 const ICONS = { private: Lock, shared: Users, public: Globe }

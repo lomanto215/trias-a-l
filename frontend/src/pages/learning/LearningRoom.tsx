@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 
 import ProgressBar from '../../components/ProgressBar'
-import { Button, EmptyState, ErrorNote, PageHeader, QueryView } from '../../components/ui'
+import { Button, EmptyState, ErrorNote, PageHeader, QueryView } from '../../components/primitives'
 import { api } from '../../lib/api'
 import { handleSubmit } from '../../lib/forms'
 import { LEARNING_KEY } from '../../lib/queryClient'

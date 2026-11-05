@@ -3,7 +3,7 @@ import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { useState, type ChangeEvent } from 'react'
 
 import Avatar from '../components/Avatar'
-import { Button, Card, ErrorNote, Field, PageHeader, QueryView } from '../components/ui'
+import { Button, Card, ErrorNote, Field, PageHeader, QueryView } from '../components/primitives'
 import { VisibilityBadge, VisibilityPicker } from '../components/Visibility'
 import { api } from '../lib/api'
 import { handleSubmit } from '../lib/forms'

@@ -26,6 +26,21 @@
   --color-mood-down: #e34948;
 }
 
+/* Token shadcn/ui (dipakai komponen di src/components/ui) dipetakan ke palet rumah,
+   jadi ikut berganti di mode gelap tanpa definisi kedua. */
+@theme inline {
+  --color-background: var(--color-paper);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: var(--color-on-accent);
+  --color-secondary: var(--color-sunken);
+  --color-secondary-foreground: var(--color-ink);
+  --color-accent-foreground: var(--color-on-accent);
+  --color-destructive: var(--color-bad);
+  --color-destructive-foreground: var(--color-paper);
+  --color-input: var(--color-line);
+  --color-ring: var(--color-accent);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-paper: #14110e;

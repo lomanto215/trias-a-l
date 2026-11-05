@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 
 import Comments from '../components/Comments'
 import MediaView from '../components/MediaView'
-import { Button, Card, EmptyState, ErrorNote, Field, PageHeader, QueryView } from '../components/ui'
+import { Button, Card, EmptyState, ErrorNote, Field, PageHeader, QueryView } from '../components/primitives'
 import { VisibilityBadge, VisibilityPicker } from '../components/Visibility'
 import { api } from '../lib/api'
 import type { ContentConfig } from '../lib/content'

@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import { House, LogIn, LogOut, Menu, X } from 'lucide-react'
-import { useState } from 'react'
-import { Link, NavLink, Outlet } from 'react-router'
+import { Suspense, useState } from 'react'
+import { Link, NavLink, Outlet, useLocation } from 'react-router'
 
 import { refreshSession } from '../lib/api'
 import { PUBLIC_ROOMS, ROLE_LABELS, ROOMS } from '../lib/rooms'
 import { buttonClass } from '../lib/styles'
 import { useAuth } from '../store/auth'
-import { Badge } from './ui'
+import { Badge, Loading } from './primitives'
 
 export default function Layout() {
   const { token, user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  // Beranda memakai hero selebar layar; halaman lain dibatasi lebar kontainer.
+  const fullBleed = useLocation().pathname === '/'
   // Role bisa berubah kapan saja lewat Data Management, jadi sesi disegarkan saat app dibuka.
   useQuery({ queryKey: ['session', token], queryFn: refreshSession, enabled: token !== null })
 
@@ -85,8 +87,10 @@ export default function Layout() {
         )}
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
-        <Outlet />
+      <main className={fullBleed ? 'flex-1' : 'mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10'}>
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <footer className="border-t border-line py-6 text-center text-sm text-muted">

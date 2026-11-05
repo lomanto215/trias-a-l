@@ -1,18 +1,22 @@
+import { lazy } from 'react'
 import { Route, Routes } from 'react-router'
 
 import Layout from './components/Layout'
 import RoomGuard from './components/RoomGuard'
 import { KENANGAN, VLOG } from './lib/content'
 import { Login, Register } from './pages/Auth'
-import Biodata from './pages/Biodata'
-import { ContentDetail, ContentRoom } from './pages/ContentRoom'
-import Curhat from './pages/Curhat'
-import DataManagement from './pages/DataManagement'
 import Landing from './pages/Landing'
-import LearningItemPage from './pages/learning/LearningItem'
-import LearningRoom from './pages/learning/LearningRoom'
-import ReviewPage from './pages/learning/Review'
 import NotFound from './pages/NotFound'
+
+// Halaman room dimuat saat dibuka, jadi tamu tidak mengunduh kode ruangan yang tidak bisa ia masuki.
+const Biodata = lazy(() => import('./pages/Biodata'))
+const ContentRoom = lazy(() => import('./pages/ContentRoom').then((m) => ({ default: m.ContentRoom })))
+const ContentDetail = lazy(() => import('./pages/ContentRoom').then((m) => ({ default: m.ContentDetail })))
+const Curhat = lazy(() => import('./pages/Curhat'))
+const DataManagement = lazy(() => import('./pages/DataManagement'))
+const LearningItemPage = lazy(() => import('./pages/learning/LearningItem'))
+const LearningRoom = lazy(() => import('./pages/learning/LearningRoom'))
+const ReviewPage = lazy(() => import('./pages/learning/Review'))
 
 export default function App() {
   return (

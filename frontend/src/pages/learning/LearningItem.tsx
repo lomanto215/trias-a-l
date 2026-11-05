@@ -4,7 +4,7 @@ import { useId, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 
 import ChatPanel from '../../components/ChatPanel'
-import { Badge, Button, Card, EmptyState, ErrorNote, Field, QueryView } from '../../components/ui'
+import { Badge, Button, Card, EmptyState, ErrorNote, Field, QueryView } from '../../components/primitives'
 import { api } from '../../lib/api'
 import { dueLabel } from '../../lib/format'
 import { handleSubmit } from '../../lib/forms'

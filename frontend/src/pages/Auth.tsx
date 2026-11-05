@@ -3,7 +3,7 @@ import { House } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router'
 
-import { Button, Card, ErrorNote, Field } from '../components/ui'
+import { Button, Card, ErrorNote, Field } from '../components/primitives'
 import { login, register } from '../lib/api'
 import { handleSubmit } from '../lib/forms'
 import { inputClass } from '../lib/styles'

@@ -1,63 +1,71 @@
 import { useQuery } from '@tanstack/react-query'
+import { MotionConfig } from 'framer-motion'
 import { ArrowRight, Lock } from 'lucide-react'
 import { Link } from 'react-router'
 
-import Avatar from '../components/Avatar'
-import { ErrorNote } from '../components/ui'
+import { ErrorNote } from '../components/primitives'
+import { HeroSection } from '../components/ui/hero-section-4'
 import { api } from '../lib/api'
 import { PUBLIC_ROOMS, ROLE_LABELS, ROOMS, type RoomInfo } from '../lib/rooms'
-import { buttonClass } from '../lib/styles'
 import type { ProfileResponse } from '../lib/types'
 import { useAuth } from '../store/auth'
+
+// Foto lanskap dari Unsplash (lisensi Unsplash: bebas dipakai tanpa atribusi).
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80'
+
+const DEFAULT_SUBTITLE =
+  'Selamat datang di rumah digitalku: tempat belajar bahasa, backend, dan AI, sekaligus menyimpan cerita dan kenangan.'
 
 export default function Landing() {
   const user = useAuth((s) => s.user)
   const query = useQuery({ queryKey: ['profile'], queryFn: () => api<ProfileResponse>('/profile') })
   const profile = query.data?.profile
-  const name = profile?.full_name ?? 'Trias Aji Lomanto'
   const openRooms = user?.rooms ?? PUBLIC_ROOMS
+  // Tombol kedua membuka ruangan pertama (selain Biodata) yang boleh dimasuki; tamu diajak masuk.
+  const nextRoom = user ? ROOMS.find((room) => room.id !== 'biodata' && openRooms.includes(room.id)) : undefined
 
   return (
-    <div className="space-y-14">
-      <section className="grid items-center gap-8 rounded-3xl border border-line bg-surface p-6 shadow-sm sm:p-10 md:grid-cols-[auto_1fr]">
-        <Avatar name={name} src={profile?.photo_url} size="lg" />
-        <div>
-          <p className="text-xs font-semibold tracking-widest text-accent uppercase">Selamat datang di rumah digital</p>
-          <h1 className="mt-2 font-display text-4xl sm:text-5xl">{name}</h1>
-          {profile?.headline && <p className="mt-2 text-lg text-muted">{profile.headline}</p>}
-          {profile?.bio && <p className="mt-4 line-clamp-3 max-w-2xl whitespace-pre-line">{profile.bio}</p>}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Link to="/biodata" className={buttonClass('primary')}>
-              Lihat biodata <ArrowRight className="size-4" aria-hidden />
-            </Link>
-            {user ? (
-              <p className="text-sm text-muted">
-                Halo, {user.name}! Kamu masuk sebagai <strong className="text-ink">{ROLE_LABELS[user.role]}</strong>.
-              </p>
-            ) : (
-              <Link to="/login" className={buttonClass('secondary')}>
-                Masuk
-              </Link>
-            )}
-          </div>
-          {query.isError && (
-            <div className="mt-4">
-              <ErrorNote error={query.error} />
-            </div>
-          )}
-        </div>
-      </section>
+    <>
+      {/* reducedMotion="user": animasi geser dimatikan bila sistem meminta gerakan minimal. */}
+      <MotionConfig reducedMotion="user">
+        {/* bg-stone-900: latar cadangan bila foto gagal dimuat. isolate membuat konteks tumpukan
+            sendiri, sehingga lapisan foto (z-index -1) tetap di atas latar cadangan itu. */}
+        <HeroSection
+          className="isolate h-[calc(100svh-4rem)] min-h-[34rem] bg-stone-900 px-4"
+          title={profile?.full_name ?? 'Trias Aji Lomanto'}
+          subtitle={profile?.headline || DEFAULT_SUBTITLE}
+          primaryButtonText="Kenalan dulu"
+          primaryButtonHref="/biodata"
+          secondaryButtonText={nextRoom ? `Buka ${nextRoom.name}` : 'Masuk'}
+          secondaryButtonHref={nextRoom?.path ?? '/login'}
+          imageUrl={HERO_IMAGE}
+        />
+      </MotionConfig>
 
-      <section>
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        {query.isError && (
+          <div className="mb-6">
+            <ErrorNote error={query.error} />
+          </div>
+        )}
         <h2 className="font-display text-2xl sm:text-3xl">Ruangan di rumah ini</h2>
-        <p className="mt-1 text-muted">Setiap ruangan punya pintunya sendiri dan terbuka sesuai peranmu.</p>
+        <p className="mt-1 text-muted">
+          {user ? (
+            <>
+              Halo, {user.name}! Kamu masuk sebagai <strong className="text-ink">{ROLE_LABELS[user.role]}</strong>; ruangan di
+              bawah terbuka sesuai peran itu.
+            </>
+          ) : (
+            'Setiap ruangan punya pintunya sendiri dan terbuka sesuai peranmu.'
+          )}
+        </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ROOMS.map((room) => (
             <RoomCard key={room.id} room={room} open={openRooms.includes(room.id)} />
           ))}
         </div>
       </section>
-    </div>
+    </>
   )
 }
 

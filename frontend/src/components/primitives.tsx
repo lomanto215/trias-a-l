@@ -69,7 +69,7 @@ export function ErrorNote({ error }: { error: unknown }) {
   )
 }
 
-function Loading() {
+export function Loading() {
   return (
     <p className="flex items-center gap-2 py-8 text-sm text-muted">
       <LoaderCircle className="size-4 animate-spin" aria-hidden /> Memuat…
