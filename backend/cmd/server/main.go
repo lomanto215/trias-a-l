@@ -15,6 +15,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/lomanto215/trias-a-l/backend/internal/access"
+	"github.com/lomanto215/trias-a-l/backend/internal/ai"
 	"github.com/lomanto215/trias-a-l/backend/internal/api"
 	"github.com/lomanto215/trias-a-l/backend/internal/auth"
 	"github.com/lomanto215/trias-a-l/backend/internal/config"
@@ -50,7 +51,12 @@ func run() error {
 		return err
 	}
 
-	server := api.New(st, auth.NewTokens(cfg.JWTSecret, cfg.JWTTTL))
+	aiClient := ai.NewClient(cfg.AI.BaseURL, cfg.AI.APIKey, cfg.AI.Model)
+	if !aiClient.Enabled() {
+		log.Println("AI_BASE_URL/AI_MODEL kosong: fitur AI (tutor, kuis, teman curhat) nonaktif")
+	}
+
+	server := api.New(st, auth.NewTokens(cfg.JWTSecret, cfg.JWTTTL), aiClient)
 	httpServer := &http.Server{
 		Addr:              ":" + cfg.Port,
 		Handler:           server.Router(cfg.CORSOrigins),
